@@ -59,14 +59,14 @@ app.get("/collections/:collectionName", function(req, res, next){
 });
 
 // Limit to 2 - Price Desc
-// app.get("/collections/:collectionName/", function(req, res, next){
-//     req.collection.find({}, {limit: 2, sort: [["price", -1]]}).toArray(function(err, results){
-//         if(err){
-//             return next(err);
-//         }
-//         res.send(results);
-//     });
-// });
+app.get("/collections/:collectionName/", function(req, res, next){
+    req.collection.find({}, {limit: 2, sort: [["price", -1]]}).toArray(function(err, results){
+        if(err){
+            return next(err);
+        }
+        res.send(results);
+    });
+});
 
 
 // Limit to 2 Price Asc
@@ -101,7 +101,7 @@ app.get("/collections/:collectionName/:max/:sortAspect/:sortAscDesc", function(r
 
 const ObjectId = require('mongodb').ObjectId;
 app.get("/collections/:collectionName/:id", function(req, res, next){
-    req.collection.findOne({ _id: new ObjectId(req.params.id)}, function(err, results){
+    req.collection.findOne({ id: new ObjectId(req.params.id)}, function(err, results){
         if(err){
             return next(err);
         }
