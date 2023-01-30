@@ -20,12 +20,12 @@ api.use(function(req, res, next){
     }
 });
 
-api.get("/books", function(req, res) { 
+api.get("/lessons", function(req, res) { 
     /* ... */ 
     res.send("Url requested: " + req.url);
 });
 
-api.post("/book", function(req, res) { 
+api.post("/lessons", function(req, res) { 
     /* ... */ 
 });
 

@@ -173,8 +173,7 @@
             AppSetting:{
                 Title: "After School Classes App",
             },
-            // Getting Lessons from Lessons.js File
-            lessons: lessons,
+            lessons: [],
             // Added Cart
             MyCart: {
                 count: 0,
@@ -188,6 +187,21 @@
             // For Search Input `
             SearchItemsView: false,
             sorted: ''
+        },
+        created: function() {
+            fetch("http://localhost:3000/collections/lessons").then(
+                function(response) {
+                    response.json().then(
+                        function(json) {
+                        // note that we used ‘webstore.lessons’
+                        // instead of 'this.lessons’
+                        // alert(json);
+                        MyStore.lessons = json;
+                        console.log(lessons);
+                        }
+                    )
+                }
+            );
         },
         methods: {
             // Search Keyup Function
