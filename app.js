@@ -131,12 +131,12 @@ app.delete("/collections/:collectionName/:id", function(req, res, next){
         if(err){
             return next(err);
         }else{
-            res.send((result.deletedCount = 1) ? {msg: "success"} : {msg: "error"});    
+            res.send((result.deletedCount = 1) ? {msg: "success!!"} : {msg: "error"});    
         }
     });
 });
 
-
+// Delete Api
 app.delete("/collections/:collectionName/lesson/:id", function(req, res, next){
 
     var id = parseInt(req.params.id, 10);
@@ -146,7 +146,7 @@ app.delete("/collections/:collectionName/lesson/:id", function(req, res, next){
         if(err){
             return next(err);
         }else{
-            res.send((result.deletedCount = 1) ? {msg: "success"} : {msg: "error"});    
+            res.send((result.deletedCount = 1) ? {msg: "success!!"} : {msg: "error"});    
         }
     });
 });
