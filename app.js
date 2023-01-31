@@ -160,7 +160,7 @@ app.put("/collections/:collectionName/:id", function(req, res, next){
     if(err){
         return next(err);
     }
-    res.send((result.matchedCount === 1) ? {msg: "Successfully Updated"} : {msg: "error"});    
+    res.send((result.matchedCount === 1) ? {msg: "Updated Lesson"} : {msg: "error"});    
     });
 });
 
