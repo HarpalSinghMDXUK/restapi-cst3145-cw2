@@ -124,6 +124,7 @@ app.post("/collections/:collectionName", function(req, res, next){
     });
 });
 
+// Delete By new ObjectId(req.params.id) ID - Api
 const ObjectId = require('mongodb').ObjectId;
 app.delete("/collections/:collectionName/:id", function(req, res, next){
     req.collection.deleteOne(
