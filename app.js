@@ -58,18 +58,7 @@ app.get("/collections/:collectionName", function(req, res, next){
     });
 });
 
-// Limit to 2 - Price Desc
-app.get("/collections/:collectionName/", function(req, res, next){
-    req.collection.find({}, {limit: 2, sort: [["price", -1]]}).toArray(function(err, results){
-        if(err){
-            return next(err);
-        }
-        res.send(results);
-    });
-});
-
-
-// Limit to 2 Price Asc
+// // Limit to 2 - Price Desc
 // app.get("/collections/:collectionName/", function(req, res, next){
 //     req.collection.find({}, {limit: 2, sort: [["price", -1]]}).toArray(function(err, results){
 //         if(err){
@@ -80,7 +69,18 @@ app.get("/collections/:collectionName/", function(req, res, next){
 // });
 
 
-// Limit to /collections/lessons/1:limit/subjectName/desc
+// // Limit to 2 Price Asc
+// app.get("/collections/:collectionName/", function(req, res, next){
+//     req.collection.find({}, {limit: 2, sort: [["price", -1]]}).toArray(function(err, results){
+//         if(err){
+//             return next(err);
+//         }
+//         res.send(results);
+//     });
+// });
+
+
+// /collections/lessons/1:limit/subjectName/desc
 app.get("/collections/:collectionName/:max/:sortAspect/:sortAscDesc", function(req, res, next){
     
     var max = parseInt(req.params.max, 10);
@@ -99,9 +99,13 @@ app.get("/collections/:collectionName/:max/:sortAspect/:sortAscDesc", function(r
 
 });
 
-const ObjectId = require('mongodb').ObjectId;
+// const ObjectId = require('mongodb').ObjectId;
 app.get("/collections/:collectionName/:id", function(req, res, next){
-    req.collection.findOne({ id: new ObjectId(req.params.id)}, function(err, results){
+    
+    var id = parseInt(req.params.id, 10);
+
+    req.collection.findOne({ id: id}, function(err, results){
+    // req.collection.findOne({ id: new ObjectId(req.params.id)}, function(err, results){
         if(err){
             return next(err);
         }
@@ -109,10 +113,57 @@ app.get("/collections/:collectionName/:id", function(req, res, next){
     });
 });
 
-
-app.post("/", function(req, res){
-    res.send("a POST Request? Let's create an element");
+// POST Methods
+app.post("/collections/:collectionName", function(req, res, next){
+    // req.body
+    req.collection.insertOne(req.body, function(err, results){
+    if(err){
+        return next(err);
+    }
+    res.send(results);
+    });
 });
+
+const ObjectId = require('mongodb').ObjectId;
+app.delete("/collections/:collectionName/:id", function(req, res, next){
+    req.collection.deleteOne(
+        { _id: new ObjectId(req.params.id)}, function(err, result){
+        if(err){
+            return next(err);
+        }else{
+            res.send((result.deletedCount = 1) ? {msg: "success"} : {msg: "error"});    
+        }
+    });
+});
+
+
+app.delete("/collections/:collectionName/lesson/:id", function(req, res, next){
+
+    var id = parseInt(req.params.id, 10);
+
+    req.collection.deleteOne(
+        { id: id}, function(err, result){
+        if(err){
+            return next(err);
+        }else{
+            res.send((result.deletedCount = 1) ? {msg: "success"} : {msg: "error"});    
+        }
+    });
+});
+
+// Update
+app.put("/collections/:collectionName/:id", function(req, res, next){
+    
+    req.collection.updateOne({_id: new ObjectId(req.params.id)},
+    {$set: req.body},
+    {safe: true, multi: false}, function(err, result){
+    if(err){
+        return next(err);
+    }
+    res.send((result.matchedCount === 1) ? {msg: "success"} : {msg: "error"});    
+    });
+});
+
 
 app.put("/", function(req, res){
     res.send("Okay, let's update an element.");
