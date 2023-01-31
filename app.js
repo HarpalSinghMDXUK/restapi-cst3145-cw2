@@ -153,14 +153,14 @@ app.delete("/collections/:collectionName/lesson/:id", function(req, res, next){
 
 // Update
 app.put("/collections/:collectionName/:id", function(req, res, next){
-    
+
     req.collection.updateOne({_id: new ObjectId(req.params.id)},
     {$set: req.body},
     {safe: true, multi: false}, function(err, result){
     if(err){
         return next(err);
     }
-    res.send((result.matchedCount === 1) ? {msg: "success"} : {msg: "error"});    
+    res.send((result.matchedCount === 1) ? {msg: "Successfully Updated"} : {msg: "error"});    
     });
 });
 
