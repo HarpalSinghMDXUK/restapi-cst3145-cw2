@@ -1,3 +1,17 @@
 curl --request GET curl --request GET http://127.0.0.1:3000/collections/lessons
 
+curl --request GET curl --request GET http://127.0.0.1:3000/collections/lessons/100
 
+
+To Post> into collection lessons
+
+curl --header "Content-Type: application/json" --request POST --data ' 
+{
+    "id": 114,
+    "subjectImg": "images/book-computer-science.png",
+    "subjectName": "Computer Science",
+    "location": "London",
+    "price": 14,
+    "spaces": 17,
+    "currency": "£"
+} ' http://localhost:3000/collections/lessons
