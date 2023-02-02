@@ -29,8 +29,6 @@ let app = express();
 
 
 var staticPath = path.resolve(__dirname, "static");
-// var imagesPath = path.resolve(__dirname, "images");
-// app.use(express.static(staticPath));
 app.use("/images", express.static(staticPath));
 
 
