@@ -58,6 +58,7 @@ app.get("/collections/:collectionName", function(req, res, next){
     });
 });
 
+
 // /collections/lessons/1:limit/subjectName/desc
 app.get("/collections/:collectionName/:max/:sortAspect/:sortAscDesc", function(req, res, next){
     
@@ -132,8 +133,8 @@ app.delete("/collections/:collectionName/lesson/:id", function(req, res, next){
 
 // Update
 app.put("/collections/:collectionName/:id", function(req, res, next){
-
-    req.collection.updateOne({_id: new ObjectId(req.params.id)},
+    var id = parseInt(req.params.id, 10);
+    req.collection.updateOne({id: id},
     {$set: req.body},
     {safe: true, multi: false}, function(err, result){
     if(err){
