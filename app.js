@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 var path = require("path");
 
+
 let propertiesReader = require("properties-reader");
 let propertiesPath = path.resolve(__dirname, "conf/db.properties");
 let properties = propertiesReader(propertiesPath);
@@ -25,6 +26,14 @@ let db = client.db(dbName);
 
 
 let app = express();
+
+
+var staticPath = path.resolve(__dirname, "static");
+// var imagesPath = path.resolve(__dirname, "images");
+// app.use(express.static(staticPath));
+app.use("/images", express.static(staticPath));
+
+
 app.set('json spaces', 3);
 app.use(cors());
 
@@ -58,6 +67,16 @@ app.get("/collections/:collectionName", function(req, res, next){
     });
 });
 
+// Search Lessons
+app.get("/collections/:collectionName/search/:search", function(req, res, next){
+
+    req.collection.find({ subjectName: { $regex: req.params.search, $options: 'i' }}).toArray(function(err, results){
+        if(err){
+            return next(err);
+        }
+        res.send(results);
+    });
+});
 
 // /collections/lessons/1:limit/subjectName/desc
 app.get("/collections/:collectionName/:max/:sortAspect/:sortAscDesc", function(req, res, next){
