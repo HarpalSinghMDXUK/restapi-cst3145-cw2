@@ -27,7 +27,7 @@ let db = client.db(dbName);
 
 let app = express();
 
-
+const loggerPath = path.join(__dirname, 'logger');
 var staticPath = path.resolve(__dirname, "static");
 app.use("/images", express.static(staticPath));
 
@@ -173,6 +173,18 @@ app.delete("/", function(req, res){
 app.use(function(req, res){
     res.status(404).send("Resource not found!");
 });
+
+
+
+
+if (!fs.existsSync(loggerPath)) {
+  fs.mkdirSync(loggerPath);
+}
+
+const loggingRequests = fs.createWriteStream(path.join(loggerPath, 'server_logs'), { flags: 'a' });
+
+app.use( morgan( 'combined' , { stream: loggingRequests }) );
+
 
 // http.createServer(app).listen(3000);
 const port = process.env.PORT || 3000;
