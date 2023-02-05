@@ -2,6 +2,7 @@ var express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 var path = require("path");
+var fs = require("fs");
 
 
 let propertiesReader = require("properties-reader");
