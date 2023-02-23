@@ -1,9 +1,10 @@
 var express = require("express");
 const cors = require("cors");
-const morgan = require("morgan");
-var path = require("path");
-var filesys = require("fs");
 
+
+var filesys = require("fs");
+var path = require("path");
+const morgan = require("morgan");
 
 let propertiesReader = require("properties-reader");
 let propertiesPath = path.resolve(__dirname, "conf/db.properties");
@@ -25,7 +26,15 @@ let db = client.db(dbName);
 
 let app = express();
 
+
+
+
 const loggerPath = path.join(__dirname, 'logger');
+if (!filesys.existsSync(loggerPath)) {
+    filesys.mkdirSync(loggerPath);
+}
+const loggingRequests = filesys.createWriteStream(path.join(loggerPath, 'server_logs'), { flags: 'a' });
+app.use(morgan('combined', { stream: loggingRequests }));
 
 
 var staticPath = path.resolve(__dirname, "static");
@@ -175,11 +184,7 @@ app.use(function(req, res){
 });
 
 
-if (!filesys.existsSync(loggerPath)) {
-    filesys.mkdirSync(loggerPath);
-}
-const loggingRequests = filesys.createWriteStream(path.join(loggerPath, 'server_logs'), { flags: 'a' });
-app.use( morgan( 'combined' , { stream: loggingRequests }) );
+
 
 
 // http.createServer(app).listen(3000);
