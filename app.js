@@ -1,7 +1,5 @@
 var express = require("express");
 const cors = require("cors");
-
-
 var filesys = require("fs");
 var path = require("path");
 const morgan = require("morgan");
