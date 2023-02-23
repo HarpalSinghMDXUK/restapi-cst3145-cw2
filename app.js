@@ -21,9 +21,6 @@ const uri = dbPprefix + dbUsername + ":" + dbPwd + dbUrl + dbParams;
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
 let db = client.db(dbName);
-// db.serverConfig.isConnected();
-
-// console.log(db.serverConfig);
 
 
 let app = express();
@@ -176,14 +173,10 @@ app.use(function(req, res){
 });
 
 
-
-
 if (!fs.existsSync(loggerPath)) {
   fs.mkdirSync(loggerPath);
 }
-
 const loggingRequests = fs.createWriteStream(path.join(loggerPath, 'server_logs'), { flags: 'a' });
-
 app.use( morgan( 'combined' , { stream: loggingRequests }) );
 
 
