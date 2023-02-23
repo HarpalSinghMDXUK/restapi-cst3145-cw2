@@ -26,6 +26,8 @@ let db = client.db(dbName);
 let app = express();
 
 const loggerPath = path.join(__dirname, 'logger');
+
+
 var staticPath = path.resolve(__dirname, "static");
 app.use("/images", express.static(staticPath));
 
@@ -173,10 +175,10 @@ app.use(function(req, res){
 });
 
 
-if (!fs.existsSync(loggerPath)) {
-  fs.mkdirSync(loggerPath);
+if (!filesys.existsSync(loggerPath)) {
+    filesys.mkdirSync(loggerPath);
 }
-const loggingRequests = fs.createWriteStream(path.join(loggerPath, 'server_logs'), { flags: 'a' });
+const loggingRequests = filesys.createWriteStream(path.join(loggerPath, 'server_logs'), { flags: 'a' });
 app.use( morgan( 'combined' , { stream: loggingRequests }) );
 
 
